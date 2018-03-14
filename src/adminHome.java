@@ -9,6 +9,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class adminHome  {
+    //Stage window;
     questionSetUp addBuild;
     public  void start() {
         Stage window = new Stage();
@@ -68,6 +69,8 @@ public class adminHome  {
     public void questionButtonClicked() {
         addBuild = new questionSetUp();
         addBuild.start();
+
+
 
     }
 

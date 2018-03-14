@@ -9,7 +9,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class admin  {
-
+   // Stage window;
     adminHome newBuild;
     public  void start() {
         Stage window = new Stage();
@@ -75,6 +75,7 @@ public class admin  {
     public void loginButtonClicked() {
         newBuild = new adminHome();
         newBuild.start();
+
 
 
 

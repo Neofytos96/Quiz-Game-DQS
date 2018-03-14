@@ -31,21 +31,23 @@ import java.util.List;
 import java.util.Scanner;
 
 public class questionSetUp {
-
+    //Stage window;
     TextField questionInput;
     TextField choiceAInput;
     TextField choiceBInput;
     TextField choiceCInput;
     TextField choiceDInput;
     TextField ansInput;
+    ObservableList<questions> allQuestions, questionSelected;
     List<questions> newListQuestion = new ArrayList<>();
     String COMMA_DELIMITER = ",";
     String NEW_LINE_SEPARATOR = "\n";
     TableView<questions> tableQuestions;
-
+    adminHome newBuild;
+    Stage window2 = new Stage();
     public void start()  {
 
-        Stage window = new Stage();
+        //Stage window = new Stage();
 
 
 
@@ -108,7 +110,7 @@ public class questionSetUp {
 
         //Answer input
         ansInput = new TextField();
-        ansInput.setPromptText("Choice B");
+        ansInput.setPromptText("Correct Answer");
         ansInput.setMinWidth(50);
 
 
@@ -117,25 +119,43 @@ public class questionSetUp {
         tableQuestions.setItems(getQuestions());
         tableQuestions.getColumns().addAll(questionColumn, choiceAColumn,choiceBColumn,choiceCColumn,choiceDColumn,answerColumn);
 
+        // button to add question
         Button addQuestion = new Button("Add");
         addQuestion.setOnAction(e -> addQuestionClicked());
+
+        //button to delete Question
+        Button delQuestion = new Button("Delete");
+        delQuestion.setOnAction(e ->delQuestionClicked() );
+
+        //save button
+        Button saveQuestion = new Button("Save");
+        saveQuestion.setOnAction(e -> saveQuestionClicked());
+
+        //edit button
+        Button edidQuestion = new Button("Edit");
+
+        // back Button
+        Button backButton = new Button("Back");
+        backButton.setOnAction(e -> backButtonClicked());
 
 
         HBox hBox = new HBox();
         hBox.setPadding(new Insets(10,10,10,10));
         hBox.setSpacing(10);
-        hBox.getChildren().addAll(questionInput, choiceAInput,choiceBInput,choiceCInput,choiceDInput,ansInput, addQuestion);
+        hBox.getChildren().addAll(questionInput, choiceAInput,choiceBInput,choiceCInput,choiceDInput,ansInput, addQuestion, delQuestion, edidQuestion,saveQuestion, backButton);
 
         VBox vBox = new VBox();
         vBox.getChildren().addAll(tableQuestions,hBox);
 
 
         Scene scene = new Scene(vBox);
-        window.setScene(scene);
-        window.show();
+        window2.setScene(scene);
+        window2.show();
 
 
         }
+
+
 
     //Get all of the products
     public ObservableList<questions> getQuestions(){
@@ -157,6 +177,7 @@ public class questionSetUp {
 
         return QuestionList;
     }
+//
 
     public void addQuestionClicked(){
         if (questionInput.getText().trim().isEmpty() || choiceAInput.getText().trim().isEmpty()
@@ -223,7 +244,48 @@ public class questionSetUp {
             }
         }
 
+    }
 
+    public void saveQuestionClicked(){
+        try {
+            FileWriter fileWriter = new FileWriter("questionsData.csv");
+
+            for (questions q : allQuestions){
+                fileWriter.append(q.getQuestion());
+                fileWriter.append(COMMA_DELIMITER);
+                fileWriter.append(q.getChoiceA());
+                fileWriter.append(COMMA_DELIMITER);
+                fileWriter.append(q.getChoiceB());
+                fileWriter.append(COMMA_DELIMITER);
+                fileWriter.append(q.getChoiceC());
+                fileWriter.append(COMMA_DELIMITER);
+                fileWriter.append(q.getChoiceD());
+                fileWriter.append(COMMA_DELIMITER);
+                fileWriter.append(q.getCorrect());
+                fileWriter.append(NEW_LINE_SEPARATOR);
+            }
+            fileWriter.flush();
+            fileWriter.close();
+            System.out.println("Saved");
+
+
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    public void delQuestionClicked(){
+        allQuestions = tableQuestions.getItems();
+        questionSelected = tableQuestions.getSelectionModel().getSelectedItems();
+
+        questionSelected.forEach(allQuestions::remove);
+    }
+
+    public void backButtonClicked(){
+        newBuild = new adminHome();
+        newBuild.start();
+        window2.close();
 
 
 
