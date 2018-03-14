@@ -10,13 +10,15 @@ import javafx.stage.Stage;
 
 public class admin  {
 
-    public static void display(String title, String message) {
+    adminHome newBuild;
+    public  void start() {
         Stage window = new Stage();
+
 
         //Block events to other windows
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle(title);
-        window.setMinWidth(250);
+
+        window.setMinWidth(240);
 
 
         window.setTitle("Admin Section");
@@ -50,16 +52,32 @@ public class admin  {
         loginButton.setOnAction(e -> {
             if (passInput.getText().equals("a")){
                 System.out.println("passcorrect");
+                //adminHome.display("Hello","This is quiz section");
+                loginButtonClicked();
+                window.close();
 
             }
         });
 
+        //button to return to home screen
+        Button closeButton = new Button("Back");
+        GridPane.setConstraints(closeButton,5,5);
+        closeButton.setOnAction(e -> window.close());
+
         //Add everything to grid
-        grid.getChildren().addAll(nameLabel, nameInput, passLabel, passInput, loginButton);
+        grid.getChildren().addAll(nameLabel,closeButton, nameInput, passLabel, passInput, loginButton);
 
         Scene scene = new Scene(grid, 300, 200);
         window.setScene(scene);
         window.show();
+    }
+
+    public void loginButtonClicked() {
+        newBuild = new adminHome();
+        newBuild.start();
+
+
+
     }
 
 

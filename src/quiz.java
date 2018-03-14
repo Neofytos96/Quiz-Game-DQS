@@ -10,13 +10,13 @@ import javafx.stage.Stage;
 
 public class quiz  {
 
-    public static void display(String title, String message) {
+    public static void start() {
         Stage window = new Stage();
 
         //Block events to other windows
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle(title);
-        window.setMinWidth(250);
+
+        window.setMinWidth(255);
 
 
         window.setTitle("Quiz Section");
@@ -31,10 +31,10 @@ public class quiz  {
         //label 2
         Label labelclose = new Label();
         GridPane.setConstraints(labelclose, 10, 3);
-        labelclose.setText(message);
+
 
         //button to return to home screen
-        Button closeButton = new Button("Close this window");
+        Button closeButton = new Button("Back");
         GridPane.setConstraints(closeButton,5,5);
         closeButton.setOnAction(e -> window.close());
 
@@ -45,6 +45,8 @@ public class quiz  {
         window.setScene(scene);
         window.show();
     }
+
+
 
 
 }

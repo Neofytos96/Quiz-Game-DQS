@@ -12,6 +12,8 @@ public class main extends Application {
     Stage window;
     Button buttonAdmin;
     Button buttonQuiz;
+    admin  newBuild;
+    quiz quizBuild;
 
     public static void main(String[] args) {
         launch(args);
@@ -33,12 +35,15 @@ public class main extends Application {
         //Button for admin use
         buttonAdmin = new Button("Admin");
         GridPane.setConstraints(buttonAdmin, 10, 7);
-        buttonAdmin.setOnAction(e -> admin.display("Hello","This is admin section"));
+        buttonAdmin.setOnAction(e -> buttonAdminClicked());
+        //admin.display("Hello","This is admin section"));
+
+
 
         // Button for taking the quiz
         buttonQuiz = new Button("Take Quiz");
         GridPane.setConstraints(buttonQuiz,10,10);
-        buttonQuiz.setOnAction(e -> quiz.display("Hello","This is quiz section"));
+        buttonQuiz.setOnAction(e -> takeQuizClicked());
 
 
 
@@ -47,6 +52,19 @@ public class main extends Application {
         Scene scene = new Scene(grid, 300, 200);
         window.setScene(scene);
         window.show();
+    }
+
+    public void buttonAdminClicked() {
+        newBuild = new admin();
+        newBuild.start();
+
+
+    }
+
+    public void takeQuizClicked(){
+        quizBuild = new quiz();
+        quizBuild.start();
+
     }
 
 }
