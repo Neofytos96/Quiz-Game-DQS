@@ -32,18 +32,21 @@ public class main extends Application {
         grid.setVgap(8);
         grid.setHgap(10);
 
+
+        // Button for taking the quiz
+        buttonQuiz = new Button("Take Quiz");
+        GridPane.setConstraints(buttonQuiz,10,7);
+        buttonQuiz.setOnAction(e -> takeQuizClicked());
+
+
         //Button for admin use
         buttonAdmin = new Button("Admin");
-        GridPane.setConstraints(buttonAdmin, 10, 7);
+        GridPane.setConstraints(buttonAdmin, 10, 10);
         buttonAdmin.setOnAction(e -> buttonAdminClicked());
         //admin.display("Hello","This is admin section"));
 
 
 
-        // Button for taking the quiz
-        buttonQuiz = new Button("Take Quiz");
-        GridPane.setConstraints(buttonQuiz,10,10);
-        buttonQuiz.setOnAction(e -> takeQuizClicked());
 
 
 

@@ -11,8 +11,10 @@ import javafx.stage.Stage;
 public class adminHome  {
     //Stage window;
     questionSetUp addBuild;
+    main mainBuild;
+    Stage window = new Stage();
     public  void start() {
-        Stage window = new Stage();
+        //Stage window = new Stage();
 
         //Block events to other windows
         window.initModality(Modality.APPLICATION_MODAL);
@@ -56,7 +58,7 @@ public class adminHome  {
         //button to return to home screen
         Button closeButton = new Button("Back");
         GridPane.setConstraints(closeButton,0,3);
-        closeButton.setOnAction(e -> window.close());
+        closeButton.setOnAction(e -> closeButtonClicked());
 
         //Add everything to grid
         grid.getChildren().addAll(preferencesBtn,schoolInput,schoolLabel, groupInput, groupLabel, questions,closeButton);
@@ -69,8 +71,10 @@ public class adminHome  {
     public void questionButtonClicked() {
         addBuild = new questionSetUp();
         addBuild.start();
+        }
 
-
+    public void closeButtonClicked() {
+        window.close();
 
     }
 

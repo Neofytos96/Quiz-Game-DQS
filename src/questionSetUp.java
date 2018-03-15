@@ -1,34 +1,26 @@
-import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.stage.Modality;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.io.*;
-
-import java.io.FileNotFoundException;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
 
 public class questionSetUp {
     //Stage window;
@@ -38,7 +30,8 @@ public class questionSetUp {
     TextField choiceCInput;
     TextField choiceDInput;
     TextField ansInput;
-    ObservableList<questions> allQuestions, questionSelected;
+    ObservableList<questions> allQuestions = FXCollections.observableArrayList();
+    ObservableList<questions> questionSelected;
     List<questions> newListQuestion = new ArrayList<>();
     String COMMA_DELIMITER = ",";
     String NEW_LINE_SEPARATOR = "\n";
@@ -82,8 +75,89 @@ public class questionSetUp {
         answerColumn.setMinWidth(150);
         answerColumn.setCellValueFactory(new PropertyValueFactory<>("correct"));
 
+        //updated question column
+        questionColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        questionColumn.setOnEditCommit(
+                new EventHandler<CellEditEvent<questions, String>>() {
+                    @Override
+                    public void handle(CellEditEvent<questions, String> event) {
+                        ((questions) event.getTableView().getItems().get(
+                                event.getTablePosition().getRow())).setQuestion(
+                                        event.getNewValue());
+                        System.out.println("question changed");
+                    }
+                });
+
+        //updated choiceA column
+        choiceAColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        choiceAColumn.setOnEditCommit(
+                new EventHandler<CellEditEvent<questions, String>>() {
+                    @Override
+                    public void handle(CellEditEvent<questions, String> event) {
+                        ((questions) event.getTableView().getItems().get(
+                                event.getTablePosition().getRow())).setChoiceA(
+                                event.getNewValue());
+                        System.out.println("question changed");
+                    }
+                });
+
+        //updated choiceB column
+        choiceBColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        choiceBColumn.setOnEditCommit(
+                new EventHandler<CellEditEvent<questions, String>>() {
+                    @Override
+                    public void handle(CellEditEvent<questions, String> event) {
+                        ((questions) event.getTableView().getItems().get(
+                                event.getTablePosition().getRow())).setChoiceB(
+                                event.getNewValue());
+                        System.out.println("question changed");
+                    }
+                });
+
+        //updated choiceC column
+        choiceCColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        choiceCColumn.setOnEditCommit(
+                new EventHandler<CellEditEvent<questions, String>>() {
+                    @Override
+                    public void handle(CellEditEvent<questions, String> event) {
+                        ((questions) event.getTableView().getItems().get(
+                                event.getTablePosition().getRow())).setChoiceC(
+                                event.getNewValue());
+                        System.out.println("question changed");
+                    }
+                });
+
+        //updated choiceD column
+        choiceDColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        choiceDColumn.setOnEditCommit(
+                new EventHandler<CellEditEvent<questions, String>>() {
+                    @Override
+                    public void handle(CellEditEvent<questions, String> event) {
+                        ((questions) event.getTableView().getItems().get(
+                                event.getTablePosition().getRow())).setChoiceD(
+                                event.getNewValue());
+                        System.out.println("question changed");
+                    }
+                });
+
+        //updated answer column
+        answerColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        answerColumn.setOnEditCommit(
+                new EventHandler<CellEditEvent<questions, String>>() {
+                    @Override
+                    public void handle(CellEditEvent<questions, String> event) {
+                        ((questions) event.getTableView().getItems().get(
+                                event.getTablePosition().getRow())).setCorrect(
+                                event.getNewValue());
+                        System.out.println("question changed");
+                    }
+                });
+
+
+
+
         //Question input
-        questionInput = new TextField();
+                questionInput = new TextField();
         questionInput.setPromptText("Question");
         questionInput.setMinWidth(150);
 
@@ -133,10 +207,13 @@ public class questionSetUp {
 
         //edit button
         Button edidQuestion = new Button("Edit");
+        edidQuestion.setOnAction(new editQuestions());
 
         // back Button
         Button backButton = new Button("Back");
         backButton.setOnAction(e -> backButtonClicked());
+
+
 
 
         HBox hBox = new HBox();
@@ -159,7 +236,6 @@ public class questionSetUp {
 
     //Get all of the products
     public ObservableList<questions> getQuestions(){
-        ObservableList<questions> QuestionList = FXCollections.observableArrayList();
         String fileName = "QuestionsData.csv";
         File file = new File (fileName);
         try {
@@ -168,14 +244,14 @@ public class questionSetUp {
                 String line = inputStreams.nextLine();
 
                 String[] splitted = line.split(",");
-                QuestionList.add(new questions(splitted[0],splitted[1], splitted[2],splitted[3], splitted[4], splitted[5]));
+                allQuestions.add(new questions(splitted[0],splitted[1], splitted[2],splitted[3], splitted[4], splitted[5]));
             }
         } catch (FileNotFoundException e){
             e.printStackTrace();
         }
 
 
-        return QuestionList;
+        return allQuestions;
     }
 //
 
@@ -204,6 +280,7 @@ public class questionSetUp {
             tableQuestions.getItems().add(Question);
 
             newListQuestion.add(new questions(question, choiceA,choiceB, choiceC,choiceD,answer));
+            //allQuestions.add(new questions(question, choiceA,choiceB, choiceC,choiceD,answer));
 
             questionInput.clear();
             choiceAInput.clear();
@@ -248,24 +325,25 @@ public class questionSetUp {
 
     public void saveQuestionClicked(){
         try {
-            FileWriter fileWriter = new FileWriter("questionsData.csv");
-
+            FileWriter filesaver = new FileWriter("questionsData.csv");
+            System.out.println("Saved button pressed");
+            System.out.println(allQuestions);
             for (questions q : allQuestions){
-                fileWriter.append(q.getQuestion());
-                fileWriter.append(COMMA_DELIMITER);
-                fileWriter.append(q.getChoiceA());
-                fileWriter.append(COMMA_DELIMITER);
-                fileWriter.append(q.getChoiceB());
-                fileWriter.append(COMMA_DELIMITER);
-                fileWriter.append(q.getChoiceC());
-                fileWriter.append(COMMA_DELIMITER);
-                fileWriter.append(q.getChoiceD());
-                fileWriter.append(COMMA_DELIMITER);
-                fileWriter.append(q.getCorrect());
-                fileWriter.append(NEW_LINE_SEPARATOR);
+                filesaver.append(q.getQuestion());
+                filesaver.append(COMMA_DELIMITER);
+                filesaver.append(q.getChoiceA());
+                filesaver.append(COMMA_DELIMITER);
+                filesaver.append(q.getChoiceB());
+                filesaver.append(COMMA_DELIMITER);
+                filesaver.append(q.getChoiceC());
+                filesaver.append(COMMA_DELIMITER);
+                filesaver.append(q.getChoiceD());
+                filesaver.append(COMMA_DELIMITER);
+                filesaver.append(q.getCorrect());
+                filesaver.append(NEW_LINE_SEPARATOR);
             }
-            fileWriter.flush();
-            fileWriter.close();
+            filesaver.flush();
+            filesaver.close();
             System.out.println("Saved");
 
 
@@ -289,6 +367,13 @@ public class questionSetUp {
 
 
 
+    }
+
+    private class editQuestions implements EventHandler<ActionEvent>{
+        @Override
+        public void handle(ActionEvent e ){
+            tableQuestions.setEditable(true);
+        }
     }
 
 
