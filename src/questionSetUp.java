@@ -30,6 +30,7 @@ public class questionSetUp {
     TextField choiceCInput;
     TextField choiceDInput;
     TextField ansInput;
+    TextField topicInput;
     ObservableList<questions> allQuestions = FXCollections.observableArrayList();
     ObservableList<questions> questionSelected;
     List<questions> newListQuestion = new ArrayList<>();
@@ -74,6 +75,11 @@ public class questionSetUp {
         TableColumn<questions, String> answerColumn = new TableColumn<>("Answer");
         answerColumn.setMinWidth(150);
         answerColumn.setCellValueFactory(new PropertyValueFactory<>("correct"));
+
+        //topic column
+        TableColumn<questions, String> topicColumn = new TableColumn<>("Topic");
+        topicColumn.setMinWidth(150);
+        topicColumn.setCellValueFactory(new PropertyValueFactory<>("topic"));
 
         //updated question column
         questionColumn.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -153,45 +159,71 @@ public class questionSetUp {
                     }
                 });
 
+        //updated topic column
+        topicColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        topicColumn.setOnEditCommit(
+                new EventHandler<CellEditEvent<questions, String>>() {
+                    @Override
+                    public void handle(CellEditEvent<questions, String> event) {
+                        ((questions) event.getTableView().getItems().get(
+                                event.getTablePosition().getRow())).setTopic(
+                                event.getNewValue());
+                        System.out.println("topic changed");
+                    }
+                });
+
 
 
 
         //Question input
                 questionInput = new TextField();
         questionInput.setPromptText("Question");
-        questionInput.setMinWidth(150);
+        questionInput.setMinWidth(100);
+        questionInput.setPrefWidth(10);
 
         //ChoiceA input
         choiceAInput = new TextField();
         choiceAInput.setPromptText("Choice A");
-        choiceAColumn.setMinWidth(50);
+        choiceAInput.setMinWidth(30);
+        choiceAColumn.setPrefWidth(10);
+
 
         //ChoiceB input
         choiceBInput = new TextField();
         choiceBInput.setPromptText("Choice B");
-        choiceBColumn.setMinWidth(50);
+        choiceBInput.setMinWidth(30);
+        choiceBColumn.setPrefWidth(10);
 
 
         //ChoiceC input
         choiceCInput = new TextField();
         choiceCInput.setPromptText("Choice C");
-        choiceCColumn.setMinWidth(50);
+        choiceCInput.setMinWidth(30);
+        choiceCColumn.setPrefWidth(10);
 
         //ChoiceD input
         choiceDInput = new TextField();
         choiceDInput.setPromptText("Choice D");
-        choiceDColumn.setMinWidth(50);
+        choiceDInput.setMinWidth(30);
+        choiceDColumn.setPrefWidth(10);
 
         //Answer input
         ansInput = new TextField();
         ansInput.setPromptText("Correct Answer");
-        ansInput.setMinWidth(50);
+        ansInput.setMinWidth(30);
+        ansInput.setPrefWidth(100);
+
+        //topic input
+        topicInput = new TextField();
+        topicInput.setPromptText("Topic");
+        topicInput.setMinWidth(30);
+        topicInput.setPrefWidth(100);
 
 
 
         tableQuestions = new TableView<>();
         tableQuestions.setItems(getQuestions());
-        tableQuestions.getColumns().addAll(questionColumn, choiceAColumn,choiceBColumn,choiceCColumn,choiceDColumn,answerColumn);
+        tableQuestions.getColumns().addAll(questionColumn, choiceAColumn,choiceBColumn,choiceCColumn,choiceDColumn,answerColumn, topicColumn);
 
         // button to add question
         Button addQuestion = new Button("Add");
@@ -219,7 +251,7 @@ public class questionSetUp {
         HBox hBox = new HBox();
         hBox.setPadding(new Insets(10,10,10,10));
         hBox.setSpacing(10);
-        hBox.getChildren().addAll(questionInput, choiceAInput,choiceBInput,choiceCInput,choiceDInput,ansInput, addQuestion, delQuestion, edidQuestion,saveQuestion, backButton);
+        hBox.getChildren().addAll(questionInput, choiceAInput,choiceBInput,choiceCInput,choiceDInput,ansInput,topicInput, addQuestion, delQuestion, edidQuestion,saveQuestion, backButton);
 
         VBox vBox = new VBox();
         vBox.getChildren().addAll(tableQuestions,hBox);
@@ -244,7 +276,7 @@ public class questionSetUp {
                 String line = inputStreams.nextLine();
 
                 String[] splitted = line.split(",");
-                allQuestions.add(new questions(splitted[0],splitted[1], splitted[2],splitted[3], splitted[4], splitted[5]));
+                allQuestions.add(new questions(splitted[0],splitted[1], splitted[2],splitted[3], splitted[4], splitted[5], splitted[6]));
             }
         } catch (FileNotFoundException e){
             e.printStackTrace();
@@ -258,7 +290,7 @@ public class questionSetUp {
     public void addQuestionClicked(){
         if (questionInput.getText().trim().isEmpty() || choiceAInput.getText().trim().isEmpty()
                 || choiceBInput.getText().trim().isEmpty() || choiceCInput.getText().trim().isEmpty()
-                || choiceDInput.getText().trim().isEmpty() || ansInput.getText().trim().isEmpty()) {
+                || choiceDInput.getText().trim().isEmpty() || ansInput.getText().trim().isEmpty() || topicInput.getText().trim().isEmpty()) {
         System.out.println("Enter data in all fields");
         }
         else {
@@ -270,6 +302,7 @@ public class questionSetUp {
             Question.setChoiceC(choiceCInput.getText());
             Question.setChoiceD(choiceDInput.getText());
             Question.setCorrect(ansInput.getText());
+            Question.setTopic(topicInput.getText());
 
             String question = questionInput.getText();
             String choiceA = choiceAInput.getText();
@@ -277,9 +310,10 @@ public class questionSetUp {
             String choiceC = choiceCInput.getText();
             String choiceD = choiceDInput.getText();
             String answer = ansInput.getText();
+            String topic = topicInput.getText();
             tableQuestions.getItems().add(Question);
 
-            newListQuestion.add(new questions(question, choiceA,choiceB, choiceC,choiceD,answer));
+            newListQuestion.add(new questions(question, choiceA,choiceB, choiceC,choiceD,answer,topic));
             //allQuestions.add(new questions(question, choiceA,choiceB, choiceC,choiceD,answer));
 
             questionInput.clear();
@@ -288,6 +322,7 @@ public class questionSetUp {
             choiceCInput.clear();
             choiceDInput.clear();
             ansInput.clear();
+            topicInput.clear();
             System.out.println(newListQuestion);
             try {
                 FileWriter fileWriter = new FileWriter("questionsData.csv", true);
@@ -305,6 +340,8 @@ public class questionSetUp {
                     fileWriter.append(q.getChoiceD());
                     fileWriter.append(COMMA_DELIMITER);
                     fileWriter.append(q.getCorrect());
+                    fileWriter.append(COMMA_DELIMITER);
+                    fileWriter.append(q.getTopic());
                     fileWriter.append(NEW_LINE_SEPARATOR);
 
 
@@ -340,6 +377,8 @@ public class questionSetUp {
                 filesaver.append(q.getChoiceD());
                 filesaver.append(COMMA_DELIMITER);
                 filesaver.append(q.getCorrect());
+                filesaver.append(COMMA_DELIMITER);
+                filesaver.append(q.getTopic());
                 filesaver.append(NEW_LINE_SEPARATOR);
             }
             filesaver.flush();
