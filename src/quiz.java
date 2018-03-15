@@ -13,9 +13,11 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import javafx.scene.text.*;
-
+import java.util.Random;
 
 public class quiz  {
 
@@ -25,11 +27,19 @@ public class quiz  {
     Button choiceBBtn;
     Button choiceCBtn;
     Button choiceDBtn;
+    ArrayList<Integer> list = new ArrayList<Integer>();
+    Integer indexQuestion = 0;
+    Integer questionCount = 0;
+    Integer score = 0;
+    Random random = new Random();
+
 
 
 
     public void start() {
+
         getQuestions();
+
         Stage window = new Stage();
 
 
@@ -38,14 +48,163 @@ public class quiz  {
         window.setMinWidth(255);
         window.setTitle("Quiz Section");
 
-        //label Question
-        questionLabel = new Label(QuestionList.get(0).getQuestion());
+        int randomGen = random.nextInt(QuestionList.size());
+        System.out.println(randomGen);
 
-        //Asnwer Buttons
-        choiceABtn = new Button(QuestionList.get(0).getChoiceA());
-        choiceBBtn = new Button(QuestionList.get(0).getChoiceB());
-        choiceCBtn = new Button(QuestionList.get(0).getChoiceC());
-        choiceDBtn = new Button(QuestionList.get(0).getChoiceD());
+
+
+            //label Question
+            questionLabel = new Label(QuestionList.get(indexQuestion).getQuestion());
+
+            choiceABtn = new Button(QuestionList.get(indexQuestion).getChoiceA());
+            choiceBBtn = new Button(QuestionList.get(indexQuestion).getChoiceB());
+            choiceCBtn = new Button(QuestionList.get(indexQuestion).getChoiceC());
+            choiceDBtn = new Button(QuestionList.get(indexQuestion).getChoiceD());
+
+            choiceABtn.setOnAction(e-> {
+                if (choiceABtn.getText().equals(QuestionList.get(indexQuestion).getCorrect()) && indexQuestion.equals(4)) {
+                    System.out.println("Correct");
+                    System.out.println("Thank you fagot");
+                    score++;
+                    indexQuestion++;
+                    System.out.println("Your score is: "+score+"/"+ indexQuestion);
+                    window.close();
+
+
+                } else if (choiceABtn.getText().equals(QuestionList.get(indexQuestion).getCorrect())){
+                    System.out.println("Correct");
+                    score++;
+                    indexQuestion++;
+                    window.close();
+                    start();
+
+            }else if (!(choiceABtn.getText().equals(QuestionList.get(indexQuestion).getCorrect())) && indexQuestion.equals(4)) {
+                    System.out.println("Wrong");
+                    indexQuestion++;
+                    System.out.println("Thank you fagot");
+
+                    System.out.println("Your score is: "+score+"/"+ indexQuestion);
+                    window.close();
+                }
+                else {
+                    System.out.println("Wrong");
+
+                    indexQuestion++;
+                    window.close();
+                    start();
+                }
+
+            });
+
+        choiceBBtn.setOnAction(e-> {
+            if (choiceBBtn.getText().equals(QuestionList.get(indexQuestion).getCorrect()) && indexQuestion.equals(4)) {
+                System.out.println("Correct");
+                System.out.println("Thank you fagot");
+                score++;
+                indexQuestion++;
+                System.out.println("Your score is: "+score+"/"+ indexQuestion);
+                window.close();
+
+
+            } else if (choiceBBtn.getText().equals(QuestionList.get(indexQuestion).getCorrect())){
+                System.out.println("Correct");
+                score++;
+                indexQuestion++;
+                window.close();
+                start();
+
+            }else if (!(choiceBBtn.getText().equals(QuestionList.get(indexQuestion).getCorrect())) && indexQuestion.equals(4)) {
+                System.out.println("Wrong");
+                indexQuestion++;
+                System.out.println("Thank you fagot");
+
+                System.out.println("Your score is: "+score+"/"+ indexQuestion);
+                window.close();
+            }
+            else {
+                System.out.println("Wrong");
+
+                indexQuestion++;
+                window.close();
+                start();
+            }
+
+        });
+
+        choiceCBtn.setOnAction(e-> {
+            if (choiceCBtn.getText().equals(QuestionList.get(indexQuestion).getCorrect()) && indexQuestion.equals(4)) {
+                System.out.println("Correct");
+                System.out.println("Thank you fagot");
+                score++;
+                indexQuestion++;
+                System.out.println("Your score is: "+score+"/"+ indexQuestion);
+                window.close();
+
+
+            } else if (choiceCBtn.getText().equals(QuestionList.get(indexQuestion).getCorrect())){
+                System.out.println("Correct");
+                score++;
+                indexQuestion++;
+                window.close();
+                start();
+
+            }else if (!(choiceCBtn.getText().equals(QuestionList.get(indexQuestion).getCorrect())) && indexQuestion.equals(4)) {
+                System.out.println("Wrong");
+                indexQuestion++;
+                System.out.println("Thank you fagot");
+
+                System.out.println("Your score is: "+score+"/"+ indexQuestion);
+                window.close();
+            }
+            else {
+                System.out.println("Wrong");
+
+                indexQuestion++;
+                window.close();
+                start();
+            }
+
+        });
+
+        choiceDBtn.setOnAction(e-> {
+            if (choiceDBtn.getText().equals(QuestionList.get(indexQuestion).getCorrect()) && indexQuestion.equals(4)) {
+                System.out.println("Correct");
+                System.out.println("Thank you fagot");
+                score++;
+                indexQuestion++;
+                System.out.println("Your score is: "+score+"/"+ indexQuestion);
+                window.close();
+
+
+            } else if (choiceDBtn.getText().equals(QuestionList.get(indexQuestion).getCorrect())){
+                System.out.println("Correct");
+                score++;
+                indexQuestion++;
+                window.close();
+                start();
+
+            }else if (!(choiceDBtn.getText().equals(QuestionList.get(indexQuestion).getCorrect())) && indexQuestion.equals(4)) {
+                System.out.println("Wrong");
+                indexQuestion++;
+                System.out.println("Thank you fagot");
+
+                System.out.println("Your score is: "+score+"/"+ indexQuestion);
+                window.close();
+            }
+            else {
+                System.out.println("Wrong");
+
+                indexQuestion++;
+                window.close();
+                start();
+            }
+
+        });
+
+
+
+
+
 
 
         //button to return to home screen
@@ -90,6 +249,9 @@ public class quiz  {
 
         return QuestionList;
     }
+
+
+
 
 
 

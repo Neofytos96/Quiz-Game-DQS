@@ -8,11 +8,17 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.FileWriter;
+
 public class adminHome  {
     //Stage window;
     questionSetUp addBuild;
     main mainBuild;
     Stage window = new Stage();
+    TextField schoolInput;
+    TextField groupInput;
+    String COMMA_DELIMITER = ",";
+    String NEW_LINE_SEPARATOR = "\n";
     public  void start() {
         //Stage window = new Stage();
 
@@ -35,7 +41,7 @@ public class adminHome  {
         GridPane.setConstraints(schoolLabel, 0, 0);
 
         //School attending input
-        TextField schoolInput = new TextField("");
+        schoolInput = new TextField("");
         GridPane.setConstraints(schoolInput, 1, 0);
 
         //Year group attending label
@@ -43,12 +49,13 @@ public class adminHome  {
         GridPane.setConstraints(groupLabel, 0, 1);
 
         //Year group attending input
-        TextField groupInput = new TextField("");
+        groupInput = new TextField("");
         GridPane.setConstraints(groupInput, 1, 1);
 
         //Button to set preferences
         Button preferencesBtn = new Button("Set Preferences");
         GridPane.setConstraints(preferencesBtn, 2, 1);
+        preferencesBtn.setOnAction(e -> preferencesBtnClicked());
 
         // Button to modify questions
         Button questions = new Button("Modify questions");
@@ -78,6 +85,23 @@ public class adminHome  {
 
     }
 
+    public void preferencesBtnClicked(){
+        try {
+            FileWriter fileWriter = new FileWriter("preferences.csv");
+            fileWriter.append(schoolInput.getText());
+            fileWriter.append(NEW_LINE_SEPARATOR);
+            fileWriter.append(groupInput.getText());
+
+            fileWriter.flush();
+            fileWriter.close();
+
+            System.out.println("preferences added");
+
+    }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
 
 
+
+}
 }
