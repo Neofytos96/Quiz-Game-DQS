@@ -20,6 +20,7 @@ import java.util.List;
 
 
 public class adminHome  {
+
     //Stage window;
     questionSetUp addBuild;
     main mainBuild;
@@ -29,12 +30,14 @@ public class adminHome  {
     String COMMA_DELIMITER = ",";
     String NEW_LINE_SEPARATOR = "\n";
     ComboBox<String> comboTopic;
+
     ObservableList<questions> QuestionList = FXCollections.observableArrayList();
     List<String> topicList = new ArrayList<>();
 
 
     public  void start() {
         //Stage window = new Stage();
+
 
         getQuestions();
         for (int i = 0; i < QuestionList.size(); i++) {
@@ -84,6 +87,7 @@ public class adminHome  {
         comboTopic.getItems().add("General");
         for (int i = 0; i < topicList.size(); i++)
             comboTopic.getItems().add(topicList.get(i));
+        comboTopic.setValue("General");
         GridPane.setConstraints(comboTopic,0,2);
 
 

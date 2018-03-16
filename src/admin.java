@@ -3,6 +3,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
@@ -42,7 +43,7 @@ public class admin  {
         GridPane.setConstraints(passLabel, 0, 1);
 
         //Password Input
-        TextField passInput = new TextField();
+        PasswordField passInput = new PasswordField();
         passInput.setPromptText("password");
         GridPane.setConstraints(passInput, 1, 1);
 

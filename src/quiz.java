@@ -18,6 +18,7 @@ import java.util.Random;
 
 public class quiz {
 
+
     ObservableList<questions> QuestionList = FXCollections.observableArrayList();
     ObservableList<questions> newQuestionList = FXCollections.observableArrayList();
 
@@ -28,6 +29,8 @@ public class quiz {
     Button choiceDBtn;
     ArrayList<Integer> list = new ArrayList<Integer>();
     Integer indexQuestion = 0;
+    Integer indexSearchQuestion = 0;
+    Integer searchIndexQuestion = 0;
     Integer questionCount = 0;
     Integer score = 0;
     Random random = new Random();
@@ -35,17 +38,21 @@ public class quiz {
 
 
     public void start() {
-
-        try {
-            readPreferences();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        if (indexQuestion.equals(0)) {
+            try {
+                readPreferences();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            getQuestions();
+            getRelatedQuestions();
         }
-        getQuestions();
-        System.out.println(preferencesList);
+//        getRelatedQuestions();
+
+//        System.out.println(preferencesList);
+
 
         Stage window = new Stage();
-        getRelatedQuestions();
 
 
         //Block events to other windows
@@ -58,12 +65,19 @@ public class quiz {
 
 
         //label Question
+//        if (QuestionList.get(indexSearchQuestion).getTopic().equals(preferencesList.get(2))) {
+
+//            indexSearchQuestion++;
+        System.out.println(indexSearchQuestion);
         questionLabel = new Label(newQuestionList.get(indexQuestion).getQuestion());
 
         choiceABtn = new Button(newQuestionList.get(indexQuestion).getChoiceA());
         choiceBBtn = new Button(newQuestionList.get(indexQuestion).getChoiceB());
         choiceCBtn = new Button(newQuestionList.get(indexQuestion).getChoiceC());
         choiceDBtn = new Button(newQuestionList.get(indexQuestion).getChoiceD());
+//        }else {indexSearchQuestion++;
+//                System.out.println(indexSearchQuestion);
+//            }
 
         choiceABtn.setOnAction(e -> {
             if (choiceABtn.getText().equals(newQuestionList.get(indexQuestion).getCorrect()) && indexQuestion.equals(4)) {
@@ -194,7 +208,7 @@ public class quiz {
             } else {
                 System.out.println("Wrong");
 
-                indexQuestion++;
+                searchIndexQuestion++;
                 window.close();
                 start();
             }
@@ -220,6 +234,11 @@ public class quiz {
         window.setScene(scene);
         window.show();
     }
+//        else{indexSearchQuestion++;
+//        start();}
+
+//    }
+
 
     //Get all of the products
     public ObservableList<questions> getQuestions() {
@@ -248,19 +267,28 @@ public class quiz {
         scanner.useDelimiter("\n");
         while (scanner.hasNext()) {
             preferencesList.add(scanner.next());
+//            System.out.println("passed ftom readpreferences");
         }
         scanner.close();
 
     }
 
-    public ObservableList<questions> getRelatedQuestions() {
+    public void getRelatedQuestions() {
         for (int i = 0; i < QuestionList.size(); i++) {
-            if (QuestionList.get(i).getTopic().equals(preferencesList.get(2))){
+            if (QuestionList.get(i).getTopic().equals(preferencesList.get(2))) {
                 newQuestionList.add(QuestionList.get(i));
             }
-return newQuestionList;
+//                System.out.println(newQuestionList);
+//                newQuestionList.addAll(QuestionList);
+            //}else if (preferencesList.get(2).equals("General")){
+            // newQuestionList.addAll(QuestionList);
+            //}
 
+//
+//            }return newQuestionList;
+//
+//        } return null;
+//    }
         }
-        return null;
     }
 }
