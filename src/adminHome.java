@@ -1,4 +1,3 @@
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -14,6 +13,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.lang.reflect.Type;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +33,7 @@ public class adminHome  {
 
     ObservableList<questions> QuestionList = FXCollections.observableArrayList();
     List<String> topicList = new ArrayList<>();
+    List<String> resultsList = new ArrayList<>();
 
 
     public  void start() {
@@ -96,13 +97,19 @@ public class adminHome  {
         GridPane.setConstraints(questions, 0, 3);
         questions.setOnAction(event -> questionButtonClicked());
 
+        //button to get statistics
+        Button getStatisticsBtn = new Button("Get Statistics");
+        GridPane.setConstraints(getStatisticsBtn, 0,4);
+        getStatisticsBtn.setOnAction(e-> statisticsClicked());
+//        System.out.println(resultsList);
+
         //button to return to home screen
         Button closeButton = new Button("Back");
-        GridPane.setConstraints(closeButton,0,4);
+        GridPane.setConstraints(closeButton,0,5);
         closeButton.setOnAction(e -> closeButtonClicked());
 
         //Add everything to grid
-        grid.getChildren().addAll(preferencesBtn,schoolInput,schoolLabel, groupInput, groupLabel, comboTopic, questions,closeButton);
+        grid.getChildren().addAll(preferencesBtn,schoolInput,schoolLabel, groupInput, groupLabel, comboTopic, questions,getStatisticsBtn,closeButton);
 
         Scene scene = new Scene(grid, 500, 300);
         window.setScene(scene);
@@ -120,7 +127,10 @@ public class adminHome  {
     }
 
     public void preferencesBtnClicked(){
+
         try {
+            FileWriter fw = new FileWriter("results.csv",false);
+            fw.append("");
             FileWriter fileWriter = new FileWriter("preferences.csv");
             fileWriter.append(schoolInput.getText());
             fileWriter.append(NEW_LINE_SEPARATOR);
@@ -160,4 +170,42 @@ public class adminHome  {
 
         return QuestionList;
     }
+
+    public List<String> getStatistics(){
+        String fileName = "results.csv";
+        File file = new File (fileName);
+        try {
+            Scanner inputStreams = new Scanner(file);
+            while (inputStreams.hasNext()) {
+                String line = inputStreams.nextLine();
+
+                String[] splitted = line.split(NEW_LINE_SEPARATOR);
+//                System.out.println(splitted[0]);
+                resultsList.add(splitted[0]);
+            }
+
+        } catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
+
+
+
+        return resultsList;
+
+    }
+
+    public void statisticsClicked(){
+        getStatistics();
+        Integer count = 0;
+        Integer total = 0;
+
+        for (int i = 0; i < resultsList.size(); i++) {
+         int sum = Integer.parseInt(resultsList.get(i));
+         total += sum;
+         count++;
+
+        }
+System.out.println((float)total/ count);
+    }
+
 }

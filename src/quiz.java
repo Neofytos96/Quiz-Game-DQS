@@ -1,16 +1,19 @@
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.util.Scanner;
 
 import java.util.ArrayList;
@@ -35,6 +38,8 @@ public class quiz {
     Integer score = 0;
     Random random = new Random();
     ArrayList<String> preferencesList = new ArrayList<String>();
+    String COMMA_DELIMITER = ",";
+    String NEW_LINE_SEPARATOR = "\n";
 
 
     public void start() {
@@ -68,7 +73,7 @@ public class quiz {
 //        if (QuestionList.get(indexSearchQuestion).getTopic().equals(preferencesList.get(2))) {
 
 //            indexSearchQuestion++;
-        System.out.println(indexSearchQuestion);
+//        System.out.println(indexSearchQuestion);
         questionLabel = new Label(newQuestionList.get(indexQuestion).getQuestion());
 
         choiceABtn = new Button(newQuestionList.get(indexQuestion).getChoiceA());
@@ -84,6 +89,7 @@ public class quiz {
                 System.out.println("Correct");
                 System.out.println("Thank you fagot");
                 score++;
+                quizFinished();
                 indexQuestion++;
                 System.out.println("Your score is: " + score + "/" + indexQuestion);
                 window.close();
@@ -99,6 +105,7 @@ public class quiz {
             } else if (!(choiceABtn.getText().equals(newQuestionList.get(indexQuestion).getCorrect())) && indexQuestion.equals(4)) {
                 System.out.println("Wrong");
                 indexQuestion++;
+                quizFinished();
                 System.out.println("Thank you fagot");
 
                 System.out.println("Your score is: " + score + "/" + indexQuestion);
@@ -119,6 +126,7 @@ public class quiz {
                 System.out.println("Thank you fagot");
                 score++;
                 indexQuestion++;
+                quizFinished();
                 System.out.println("Your score is: " + score + "/" + indexQuestion);
                 window.close();
 
@@ -133,6 +141,7 @@ public class quiz {
             } else if (!(choiceBBtn.getText().equals(newQuestionList.get(indexQuestion).getCorrect())) && indexQuestion.equals(4)) {
                 System.out.println("Wrong");
                 indexQuestion++;
+                quizFinished();
                 System.out.println("Thank you fagot");
 
                 System.out.println("Your score is: " + score + "/" + indexQuestion);
@@ -153,6 +162,7 @@ public class quiz {
                 System.out.println("Thank you fagot");
                 score++;
                 indexQuestion++;
+                quizFinished();
                 System.out.println("Your score is: " + score + "/" + indexQuestion);
                 window.close();
 
@@ -168,7 +178,7 @@ public class quiz {
                 System.out.println("Wrong");
                 indexQuestion++;
                 System.out.println("Thank you fagot");
-
+                quizFinished();
                 System.out.println("Your score is: " + score + "/" + indexQuestion);
                 window.close();
             } else {
@@ -187,6 +197,7 @@ public class quiz {
                 System.out.println("Thank you fagot");
                 score++;
                 indexQuestion++;
+                quizFinished();
                 System.out.println("Your score is: " + score + "/" + indexQuestion);
                 window.close();
 
@@ -202,7 +213,7 @@ public class quiz {
                 System.out.println("Wrong");
                 indexQuestion++;
                 System.out.println("Thank you fagot");
-
+                quizFinished();
                 System.out.println("Your score is: " + score + "/" + indexQuestion);
                 window.close();
             } else {
@@ -221,9 +232,24 @@ public class quiz {
         GridPane.setConstraints(closeButton, 10, 10);
         closeButton.setOnAction(e -> window.close());
 
+        //button to restart the quiz
+        Button restartBtn = new Button("Restart Quiz");
+        GridPane.setConstraints(restartBtn, 10,10);
+        restartBtn.setOnAction(e->{
+            indexQuestion = 0;
+            score = 0;
+            newQuestionList.clear();
+            window.close();
+            start();
+        });
+
+        HBox hBox = new HBox();
+        hBox.setPadding(new Insets(10,10,10,10));
+        hBox.setSpacing(10);
+        hBox.getChildren().addAll(closeButton,restartBtn);
 
         VBox vBox = new VBox(10);
-        vBox.getChildren().addAll(questionLabel, choiceABtn, choiceBBtn, choiceCBtn, choiceDBtn, closeButton);
+        vBox.getChildren().addAll(questionLabel, choiceABtn, choiceBBtn, choiceCBtn, choiceDBtn, hBox);
 
         vBox.setAlignment(Pos.CENTER);
 
@@ -278,17 +304,29 @@ public class quiz {
             if (QuestionList.get(i).getTopic().equals(preferencesList.get(2))) {
                 newQuestionList.add(QuestionList.get(i));
             }
-//                System.out.println(newQuestionList);
-//                newQuestionList.addAll(QuestionList);
-            //}else if (preferencesList.get(2).equals("General")){
-            // newQuestionList.addAll(QuestionList);
-            //}
 
-//
-//            }return newQuestionList;
-//
-//        } return null;
-//    }
         }
     }
+
+    public void quizFinished(){
+        try {
+            FileWriter filesaver = new FileWriter("results.csv", true);
+            System.out.println("results saved");
+//            System.out.println(allQuestions);
+
+                filesaver.append(score.toString());
+
+                filesaver.append(NEW_LINE_SEPARATOR);
+
+            filesaver.flush();
+            filesaver.close();
+            System.out.println("Saved");
+
+
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+    }
+
 }
