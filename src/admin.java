@@ -62,7 +62,7 @@ public class admin  {
 
         //button to return to home screen
         Button closeButton = new Button("Back");
-        GridPane.setConstraints(closeButton,5,5);
+        GridPane.setConstraints(closeButton,1,5);
         closeButton.setOnAction(e -> window.close());
 
         //Add everything to grid

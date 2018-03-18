@@ -1,13 +1,10 @@
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -384,6 +381,14 @@ public class questionSetUp {
             filesaver.flush();
             filesaver.close();
             System.out.println("Saved");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Save  ");
+            alert.setHeaderText("Questions saved successfully");
+//            alert.setContentText("Preferences added successfully" );
+            alert.showAndWait().ifPresent(rs -> {
+                if (rs == ButtonType.OK) {
+                    System.out.println("Pressed OK.");}
+            });
 
 
         } catch (Exception e){
@@ -400,6 +405,17 @@ public class questionSetUp {
     }
 
     public void backButtonClicked(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Save before exit  ");
+        alert.setHeaderText("Do you want to save your changes before leaving?");
+//            alert.setContentText("Preferences added successfully" );
+        alert.showAndWait().ifPresent(rs -> {
+            if (rs == ButtonType.OK) {
+                saveQuestionClicked();
+                newBuild = new adminHome();
+                newBuild.start();
+                window2.close();}
+        });
         newBuild = new adminHome();
         newBuild.start();
         window2.close();

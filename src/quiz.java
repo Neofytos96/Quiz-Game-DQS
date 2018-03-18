@@ -3,7 +3,9 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -65,55 +67,51 @@ public class quiz {
         window.setMinWidth(255);
         window.setTitle("Quiz Section");
 
-//        int randomGen = random.nextInt(QuestionList.size());
-//        System.out.println(randomGen);
 
-
-        //label Question
-//        if (QuestionList.get(indexSearchQuestion).getTopic().equals(preferencesList.get(2))) {
-
-//            indexSearchQuestion++;
-//        System.out.println(indexSearchQuestion);
         questionLabel = new Label(newQuestionList.get(indexQuestion).getQuestion());
 
         choiceABtn = new Button(newQuestionList.get(indexQuestion).getChoiceA());
         choiceBBtn = new Button(newQuestionList.get(indexQuestion).getChoiceB());
         choiceCBtn = new Button(newQuestionList.get(indexQuestion).getChoiceC());
         choiceDBtn = new Button(newQuestionList.get(indexQuestion).getChoiceD());
-//        }else {indexSearchQuestion++;
-//                System.out.println(indexSearchQuestion);
-//            }
+
 
         choiceABtn.setOnAction(e -> {
             if (choiceABtn.getText().equals(newQuestionList.get(indexQuestion).getCorrect()) && indexQuestion.equals(4)) {
                 System.out.println("Correct");
-                System.out.println("Thank you fagot");
+
                 score++;
+                messageBoxLastCorrect();
                 quizFinished();
                 indexQuestion++;
-                System.out.println("Your score is: " + score + "/" + indexQuestion);
+
+//                System.out.println("Your score is: " + score + "/" + indexQuestion);
                 window.close();
 
 
             } else if (choiceABtn.getText().equals(newQuestionList.get(indexQuestion).getCorrect())) {
                 System.out.println("Correct");
                 score++;
+                messageBoxCorrect();
                 indexQuestion++;
+
                 window.close();
                 start();
 
             } else if (!(choiceABtn.getText().equals(newQuestionList.get(indexQuestion).getCorrect())) && indexQuestion.equals(4)) {
                 System.out.println("Wrong");
+                messageBoxLastWrong();
                 indexQuestion++;
                 quizFinished();
-                System.out.println("Thank you fagot");
+
 
                 System.out.println("Your score is: " + score + "/" + indexQuestion);
                 window.close();
             } else {
                 System.out.println("Wrong");
-
+                messageBoxWrong();
                 indexQuestion++;
+
                 window.close();
                 start();
             }
@@ -123,10 +121,13 @@ public class quiz {
         choiceBBtn.setOnAction(e -> {
             if (choiceBBtn.getText().equals(newQuestionList.get(indexQuestion).getCorrect()) && indexQuestion.equals(4)) {
                 System.out.println("Correct");
-                System.out.println("Thank you fagot");
-                score++;
+
                 indexQuestion++;
+                messageBoxLastCorrect();
+                score++;
+
                 quizFinished();
+
                 System.out.println("Your score is: " + score + "/" + indexQuestion);
                 window.close();
 
@@ -134,22 +135,27 @@ public class quiz {
             } else if (choiceBBtn.getText().equals(newQuestionList.get(indexQuestion).getCorrect())) {
                 System.out.println("Correct");
                 score++;
+                messageBoxCorrect();
                 indexQuestion++;
+
                 window.close();
                 start();
 
             } else if (!(choiceBBtn.getText().equals(newQuestionList.get(indexQuestion).getCorrect())) && indexQuestion.equals(4)) {
                 System.out.println("Wrong");
+                messageBoxLastWrong();
                 indexQuestion++;
                 quizFinished();
-                System.out.println("Thank you fagot");
+
+
 
                 System.out.println("Your score is: " + score + "/" + indexQuestion);
                 window.close();
             } else {
                 System.out.println("Wrong");
-
+                messageBoxWrong();
                 indexQuestion++;
+
                 window.close();
                 start();
             }
@@ -159,9 +165,11 @@ public class quiz {
         choiceCBtn.setOnAction(e -> {
             if (choiceCBtn.getText().equals(newQuestionList.get(indexQuestion).getCorrect()) && indexQuestion.equals(4)) {
                 System.out.println("Correct");
-                System.out.println("Thank you fagot");
+
                 score++;
+                messageBoxLastCorrect();
                 indexQuestion++;
+
                 quizFinished();
                 System.out.println("Your score is: " + score + "/" + indexQuestion);
                 window.close();
@@ -169,22 +177,29 @@ public class quiz {
 
             } else if (choiceCBtn.getText().equals(newQuestionList.get(indexQuestion).getCorrect())) {
                 System.out.println("Correct");
+
                 score++;
+                messageBoxCorrect();
                 indexQuestion++;
+
                 window.close();
                 start();
 
             } else if (!(choiceCBtn.getText().equals(newQuestionList.get(indexQuestion).getCorrect())) && indexQuestion.equals(4)) {
                 System.out.println("Wrong");
+                messageBoxLastWrong();
                 indexQuestion++;
-                System.out.println("Thank you fagot");
+
                 quizFinished();
                 System.out.println("Your score is: " + score + "/" + indexQuestion);
+
                 window.close();
             } else {
                 System.out.println("Wrong");
 
+                messageBoxWrong();
                 indexQuestion++;
+
                 window.close();
                 start();
             }
@@ -194,9 +209,11 @@ public class quiz {
         choiceDBtn.setOnAction(e -> {
             if (choiceDBtn.getText().equals(newQuestionList.get(indexQuestion).getCorrect()) && indexQuestion.equals(4)) {
                 System.out.println("Correct");
-                System.out.println("Thank you fagot");
+
                 score++;
+                messageBoxLastCorrect();
                 indexQuestion++;
+
                 quizFinished();
                 System.out.println("Your score is: " + score + "/" + indexQuestion);
                 window.close();
@@ -205,19 +222,24 @@ public class quiz {
             } else if (choiceDBtn.getText().equals(newQuestionList.get(indexQuestion).getCorrect())) {
                 System.out.println("Correct");
                 score++;
+                messageBoxCorrect();
+
                 indexQuestion++;
                 window.close();
                 start();
 
             } else if (!(choiceDBtn.getText().equals(newQuestionList.get(indexQuestion).getCorrect())) && indexQuestion.equals(4)) {
                 System.out.println("Wrong");
+                messageBoxLastWrong();
+
                 indexQuestion++;
-                System.out.println("Thank you fagot");
+
                 quizFinished();
                 System.out.println("Your score is: " + score + "/" + indexQuestion);
                 window.close();
             } else {
                 System.out.println("Wrong");
+                messageBoxWrong();
 
                 searchIndexQuestion++;
                 window.close();
@@ -327,6 +349,52 @@ public class quiz {
             System.out.println(e.getMessage());
         }
 
+    }
+    public void messageBoxLastCorrect(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("End of the quiz ");
+        alert.setHeaderText("Good news! You have completed the quiz!");
+        alert.setContentText("Your correct answers are: " + score + "/10" );
+        alert.showAndWait().ifPresent(rs -> {
+            if (rs == ButtonType.OK) {
+                System.out.println("Pressed OK.");
+            }
+        });
+    }
+    public void messageBoxLastWrong(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("End of the quiz ");
+        alert.setHeaderText("Good news! You have completed the quiz!");
+        alert.setContentText("Your mark is: " + score + "/10");
+        alert.showAndWait().ifPresent(rs -> {
+            if (rs == ButtonType.OK) {
+                System.out.println("Pressed OK.");
+            }
+        });
+    }
+
+    public void messageBoxCorrect(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Question Feedback ");
+        alert.setHeaderText("Good news! You have answered correctly!");
+        alert.setContentText("Your correct answers are: " + score );
+        alert.showAndWait().ifPresent(rs -> {
+            if (rs == ButtonType.OK) {
+                System.out.println("Pressed OK.");
+            }
+        });
+    }
+
+    public void messageBoxWrong(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Question Feedback ");
+        alert.setHeaderText("Bad news! You gave a wrong answer! The correct answer was: "+ newQuestionList.get(indexQuestion).getCorrect());
+        alert.setContentText("Your correct answers are: " + score );
+        alert.showAndWait().ifPresent(rs -> {
+            if (rs == ButtonType.OK) {
+                System.out.println("Pressed OK.");
+            }
+        });
     }
 
 }

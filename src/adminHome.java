@@ -17,6 +17,9 @@ import java.lang.reflect.Type;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 
 public class adminHome  {
@@ -138,11 +141,18 @@ public class adminHome  {
             fileWriter.append(NEW_LINE_SEPARATOR);
             fileWriter.append(comboTopic.getValue());
 
-
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Preferences  ");
+            alert.setHeaderText("Preferences added successfully");
+//            alert.setContentText("Preferences added successfully" );
+            alert.showAndWait().ifPresent(rs -> {
+                if (rs == ButtonType.OK) {
+                    System.out.println("Pressed OK.");}
+            });
             fileWriter.flush();
             fileWriter.close();
 
-            System.out.println("preferences added");
+           // System.out.println("preferences added");
 
     }catch (Exception e){
             System.out.println(e.getMessage());
@@ -205,7 +215,16 @@ public class adminHome  {
          count++;
 
         }
-System.out.println((float)total/ count);
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Average mark ");
+        alert.setHeaderText("This is the average mark for the students taking the quiz");
+        alert.setContentText("The average mark is: "+(float)total/ count+"/10" );
+        alert.showAndWait().ifPresent(rs -> {
+            if (rs == ButtonType.OK) {
+                System.out.println("Pressed OK.");
+            }
+        });
+//System.out.println((float)total/ count);
     }
 
 }
