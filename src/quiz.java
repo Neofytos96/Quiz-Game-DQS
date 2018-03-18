@@ -20,6 +20,8 @@ import java.util.Scanner;
 
 import java.util.ArrayList;
 import java.util.Random;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.ProgressBar;
 
 public class quiz {
 
@@ -60,6 +62,9 @@ public class quiz {
 
 
         Stage window = new Stage();
+
+
+
 
 
         //Block events to other windows
@@ -240,13 +245,16 @@ public class quiz {
             } else {
                 System.out.println("Wrong");
                 messageBoxWrong();
-
-                searchIndexQuestion++;
+                indexQuestion++;
+//                searchIndexQuestion++;
                 window.close();
                 start();
             }
 
         });
+
+        ProgressBar pb = new ProgressBar(((float)indexQuestion/10)+0.1);
+        ProgressIndicator pi = new ProgressIndicator(((float)indexQuestion/10)+0.1);
 
 
         //button to return to home screen
@@ -271,7 +279,7 @@ public class quiz {
         hBox.getChildren().addAll(closeButton,restartBtn);
 
         VBox vBox = new VBox(10);
-        vBox.getChildren().addAll(questionLabel, choiceABtn, choiceBBtn, choiceCBtn, choiceDBtn, hBox);
+        vBox.getChildren().addAll(questionLabel, choiceABtn, choiceBBtn, choiceCBtn, choiceDBtn,pb,pi, hBox);
 
         vBox.setAlignment(Pos.CENTER);
 
@@ -326,6 +334,9 @@ public class quiz {
             if (QuestionList.get(i).getTopic().equals(preferencesList.get(2))) {
                 newQuestionList.add(QuestionList.get(i));
             }
+            else if (preferencesList.get(2).equals("General")){
+                newQuestionList.add(QuestionList.get(i));
+            }
 
         }
     }
@@ -364,7 +375,7 @@ public class quiz {
     public void messageBoxLastWrong(){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("End of the quiz ");
-        alert.setHeaderText("Good news! You have completed the quiz!");
+        alert.setHeaderText("Good news! You have completed the quiz! The answer to the last question was: "+newQuestionList.get(indexQuestion).getCorrect());
         alert.setContentText("Your mark is: " + score + "/10");
         alert.showAndWait().ifPresent(rs -> {
             if (rs == ButtonType.OK) {
