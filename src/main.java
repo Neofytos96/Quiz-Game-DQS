@@ -25,6 +25,9 @@ public class main extends Application {
     public void start(Stage primaryStage) {
         window = primaryStage;
         window.setTitle("Welcome to the quiz");
+        window.setWidth(300);
+        window.setHeight(250);
+        window.setResizable(false);
 
         //GridPane with 10px padding around edge
         GridPane grid = new GridPane();

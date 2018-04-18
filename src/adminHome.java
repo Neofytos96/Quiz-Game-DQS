@@ -37,11 +37,15 @@ public class adminHome  {
     ObservableList<questions> QuestionList = FXCollections.observableArrayList();
     List<String> topicList = new ArrayList<>();
     List<String> resultsList = new ArrayList<>();
+    List<String> schoolList = new ArrayList<>();
 
 
     public  void start() {
         //Stage window = new Stage();
 
+        window.setWidth(500);
+        window.setHeight(300);
+        window.setResizable(false);
 
         getQuestions();
         for (int i = 0; i < QuestionList.size(); i++) {
@@ -130,35 +134,46 @@ public class adminHome  {
     }
 
     public void preferencesBtnClicked(){
-
-        try {
-            FileWriter fw = new FileWriter("results.csv",false);
-            fw.append("");
-            FileWriter fileWriter = new FileWriter("preferences.csv");
-            fileWriter.append(schoolInput.getText());
-            fileWriter.append(NEW_LINE_SEPARATOR);
-            fileWriter.append(groupInput.getText());
-            fileWriter.append(NEW_LINE_SEPARATOR);
-            fileWriter.append(comboTopic.getValue());
-
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Preferences  ");
-            alert.setHeaderText("Preferences added successfully");
+            if (schoolInput.getText().isEmpty()|| groupInput.getText().isEmpty()){
+                Alert alertPreference = new Alert(AlertType.ERROR);
+                alertPreference.setTitle("Preferences Not Added  ");
+                alertPreference.setHeaderText("Not all the preferences are entered");
 //            alert.setContentText("Preferences added successfully" );
-            alert.showAndWait().ifPresent(rs -> {
-                if (rs == ButtonType.OK) {
-                    System.out.println("Pressed OK.");}
-            });
-            fileWriter.flush();
-            fileWriter.close();
+                alertPreference.showAndWait().ifPresent(rs -> {
+                    if (rs == ButtonType.OK) {
+                        System.out.println("Pressed OK.");}
+                });
+            }else {
+                try {
+                    FileWriter fw = new FileWriter("results.csv", false);
+                    fw.append("");
+                    FileWriter fileWriter = new FileWriter("preferences.csv");
+                    fileWriter.append(schoolInput.getText());
+                    fileWriter.append(NEW_LINE_SEPARATOR);
+                    fileWriter.append(groupInput.getText());
+                    fileWriter.append(NEW_LINE_SEPARATOR);
+                    fileWriter.append(comboTopic.getValue());
 
-           // System.out.println("preferences added");
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Preferences  ");
+                    alert.setHeaderText("Preferences added successfully");
+//            alert.setContentText("Preferences added successfully" );
+                    alert.showAndWait().ifPresent(rs -> {
+                        if (rs == ButtonType.OK) {
+                            System.out.println("Pressed OK.");
+                        }
+                    });
+                    fileWriter.flush();
+                    fileWriter.close();
 
-    }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
 
+                    // System.out.println("preferences added");
 
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+
+            }
 
 }
     public ObservableList<questions> getQuestions(){
@@ -204,8 +219,33 @@ public class adminHome  {
 
     }
 
+
+    public List<String> getSchoolYear(){
+        String fileName = "preferences.csv";
+        File file = new File (fileName);
+        try {
+            Scanner inputStreams = new Scanner(file);
+            while (inputStreams.hasNext()) {
+                String line = inputStreams.nextLine();
+
+                String[] splitted = line.split(NEW_LINE_SEPARATOR);
+//                System.out.println(splitted[0]);
+                schoolList.add(splitted[0]);
+            }
+
+        } catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
+
+
+
+        return schoolList;
+
+    }
+
     public void statisticsClicked(){
         getStatistics();
+        getSchoolYear();
         Integer count = 0;
         Integer total = 0;
 
@@ -217,7 +257,8 @@ public class adminHome  {
         }
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Average mark ");
-        alert.setHeaderText("This is the average mark for the students taking the quiz");
+        alert.setHeaderText("This is the average mark for the students from the school of " + schoolList.get(0)+NEW_LINE_SEPARATOR+
+        "Their year group is: "+ schoolList.get(1));
         alert.setContentText("The average mark is: "+(float)total/ count+"/10" );
         alert.showAndWait().ifPresent(rs -> {
             if (rs == ButtonType.OK) {

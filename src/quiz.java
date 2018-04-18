@@ -69,8 +69,12 @@ public class quiz {
 
         //Block events to other windows
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setMinWidth(255);
+//        window.setMinWidth(255);
+        window.setWidth(600);
+        window.setHeight(400);
+        window.setResizable(false);
         window.setTitle("Quiz Section");
+
 
 
         questionLabel = new Label(newQuestionList.get(indexQuestion).getQuestion());
@@ -82,7 +86,7 @@ public class quiz {
 
 
         choiceABtn.setOnAction(e -> {
-            if (choiceABtn.getText().equals(newQuestionList.get(indexQuestion).getCorrect()) && indexQuestion.equals(4)) {
+            if (choiceABtn.getText().equals(newQuestionList.get(indexQuestion).getCorrect()) && indexQuestion.equals(9)) {
                 System.out.println("Correct");
 
                 score++;
@@ -103,7 +107,7 @@ public class quiz {
                 window.close();
                 start();
 
-            } else if (!(choiceABtn.getText().equals(newQuestionList.get(indexQuestion).getCorrect())) && indexQuestion.equals(4)) {
+            } else if (!(choiceABtn.getText().equals(newQuestionList.get(indexQuestion).getCorrect())) && indexQuestion.equals(9)) {
                 System.out.println("Wrong");
                 messageBoxLastWrong();
                 indexQuestion++;
@@ -124,7 +128,7 @@ public class quiz {
         });
 
         choiceBBtn.setOnAction(e -> {
-            if (choiceBBtn.getText().equals(newQuestionList.get(indexQuestion).getCorrect()) && indexQuestion.equals(4)) {
+            if (choiceBBtn.getText().equals(newQuestionList.get(indexQuestion).getCorrect()) && indexQuestion.equals(9)) {
                 System.out.println("Correct");
 
                 indexQuestion++;
@@ -146,7 +150,7 @@ public class quiz {
                 window.close();
                 start();
 
-            } else if (!(choiceBBtn.getText().equals(newQuestionList.get(indexQuestion).getCorrect())) && indexQuestion.equals(4)) {
+            } else if (!(choiceBBtn.getText().equals(newQuestionList.get(indexQuestion).getCorrect())) && indexQuestion.equals(9)) {
                 System.out.println("Wrong");
                 messageBoxLastWrong();
                 indexQuestion++;
@@ -168,7 +172,7 @@ public class quiz {
         });
 
         choiceCBtn.setOnAction(e -> {
-            if (choiceCBtn.getText().equals(newQuestionList.get(indexQuestion).getCorrect()) && indexQuestion.equals(4)) {
+            if (choiceCBtn.getText().equals(newQuestionList.get(indexQuestion).getCorrect()) && indexQuestion.equals(9)) {
                 System.out.println("Correct");
 
                 score++;
@@ -190,7 +194,7 @@ public class quiz {
                 window.close();
                 start();
 
-            } else if (!(choiceCBtn.getText().equals(newQuestionList.get(indexQuestion).getCorrect())) && indexQuestion.equals(4)) {
+            } else if (!(choiceCBtn.getText().equals(newQuestionList.get(indexQuestion).getCorrect())) && indexQuestion.equals(9)) {
                 System.out.println("Wrong");
                 messageBoxLastWrong();
                 indexQuestion++;
@@ -212,7 +216,7 @@ public class quiz {
         });
 
         choiceDBtn.setOnAction(e -> {
-            if (choiceDBtn.getText().equals(newQuestionList.get(indexQuestion).getCorrect()) && indexQuestion.equals(4)) {
+            if (choiceDBtn.getText().equals(newQuestionList.get(indexQuestion).getCorrect()) && indexQuestion.equals(9)) {
                 System.out.println("Correct");
 
                 score++;
@@ -233,7 +237,7 @@ public class quiz {
                 window.close();
                 start();
 
-            } else if (!(choiceDBtn.getText().equals(newQuestionList.get(indexQuestion).getCorrect())) && indexQuestion.equals(4)) {
+            } else if (!(choiceDBtn.getText().equals(newQuestionList.get(indexQuestion).getCorrect())) && indexQuestion.equals(9)) {
                 System.out.println("Wrong");
                 messageBoxLastWrong();
 
@@ -277,6 +281,7 @@ public class quiz {
         hBox.setPadding(new Insets(10,10,10,10));
         hBox.setSpacing(10);
         hBox.getChildren().addAll(closeButton,restartBtn);
+        hBox.setAlignment(Pos.BASELINE_RIGHT);
 
         VBox vBox = new VBox(10);
         vBox.getChildren().addAll(questionLabel, choiceABtn, choiceBBtn, choiceCBtn, choiceDBtn,pb,pi, hBox);

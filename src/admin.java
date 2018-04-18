@@ -19,7 +19,9 @@ public class admin  {
         //Block events to other windows
         window.initModality(Modality.APPLICATION_MODAL);
 
-        window.setMinWidth(240);
+        window.setWidth(300);
+        window.setHeight(250);
+        window.setResizable(false);
 
 
         window.setTitle("Admin Section");
