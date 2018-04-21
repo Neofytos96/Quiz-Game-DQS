@@ -17,7 +17,9 @@ import javafx.scene.control.TableColumn.CellEditEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
+import java.util.function.Predicate;
 
 public class questionSetUp {
     //Stage window;
@@ -30,11 +32,13 @@ public class questionSetUp {
     TextField topicInput;
     ObservableList<questions> allQuestions = FXCollections.observableArrayList();
     ObservableList<questions> questionSelected;
+    FilteredList<questions> filteredData = new FilteredList<>(allQuestions, e->true);
     List<questions> newListQuestion = new ArrayList<>();
     String COMMA_DELIMITER = ",";
     String NEW_LINE_SEPARATOR = "\n";
     TableView<questions> tableQuestions;
     adminHome newBuild;
+    TextField searchInput;
     Stage window2 = new Stage();
     public void start()  {
 
@@ -230,10 +234,14 @@ public class questionSetUp {
         Button delQuestion = new Button("Delete");
         delQuestion.setOnAction(e ->delQuestionClicked() );
 
+        // Search input
+        searchInput = new TextField();
+        searchInput.setPromptText("Search");
+        searchInput.setMinWidth(100);
+
         //save button
-//        Button saveQuestion = new Button("Save");
-//        saveQuestion.setOnAction(e -> saveQuestionClicked());
-//        saveQuestion.setOnAction(e -> savedBox() );
+        Button saveQuestion = new Button("Save");
+        saveQuestion.setOnAction(e -> saveQuestionClicked());
 
 
         //edit button
@@ -250,10 +258,49 @@ public class questionSetUp {
         HBox hBox = new HBox();
         hBox.setPadding(new Insets(10,10,10,10));
         hBox.setSpacing(10);
-        hBox.getChildren().addAll(questionInput, choiceAInput,choiceBInput,choiceCInput,choiceDInput,ansInput,topicInput, addQuestion, delQuestion, edidQuestion, backButton);
+        hBox.getChildren().addAll(questionInput, choiceAInput,choiceBInput,choiceCInput,choiceDInput,ansInput,topicInput, addQuestion, delQuestion, edidQuestion, saveQuestion, backButton);
 
         VBox vBox = new VBox();
-        vBox.getChildren().addAll(tableQuestions,hBox);
+        vBox.getChildren().addAll(tableQuestions,hBox, searchInput);
+
+        //search table
+        searchInput.setOnKeyReleased(e ->{
+            searchInput.textProperty().addListener(((observable, oldValue, newValue) -> {
+                filteredData.setPredicate((Predicate<? super questions>) Students ->{
+                    if (newValue == null || newValue.isEmpty()){
+                        return true;
+                    }
+                    String lowCaseSearch = newValue.toLowerCase();
+                    if (Students.getQuestion().toLowerCase().contains(lowCaseSearch)){
+                        return true;
+                    }
+                    if (Students.getChoiceA().toLowerCase().contains(lowCaseSearch)){
+                        return true;
+                    }
+                    if (Students.getChoiceB().toLowerCase().contains(lowCaseSearch)){
+                        return true;
+                    }
+                    if (Students.getChoiceC().toLowerCase().contains(lowCaseSearch)){
+                        return true;
+                    }
+
+                    if (Students.getChoiceD().toLowerCase().contains(lowCaseSearch)){
+                        return true;
+                    }
+                    if (Students.getCorrect().toLowerCase().contains(lowCaseSearch)){
+                        return true;
+                    }
+                    if (Students.getTopic().toLowerCase().contains(lowCaseSearch)){
+                        return true;
+                    }
+
+                    return false;
+                });
+            }));
+            SortedList<questions> sortedData = new SortedList<>(filteredData);
+            sortedData.comparatorProperty().bind(tableQuestions.comparatorProperty());
+            tableQuestions.setItems(sortedData);
+        });
 
 
         Scene scene = new Scene(vBox);
@@ -426,7 +473,9 @@ public class questionSetUp {
         @Override
         public void handle(ActionEvent e ){
             tableQuestions.setEditable(true);
+        saveQuestionClicked();
         }
+
     }
 
 
