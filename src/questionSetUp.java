@@ -416,8 +416,8 @@ public class questionSetUp {
                 newBuild.start();
                 window2.close();}
         });
-        newBuild = new adminHome();
-        newBuild.start();
+//        newBuild = new adminHome();
+//        newBuild.start();
         window2.close();
 
 
