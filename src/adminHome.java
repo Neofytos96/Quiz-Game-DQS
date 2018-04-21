@@ -124,6 +124,7 @@ public class adminHome  {
     }
 
     public void questionButtonClicked() {
+        window.close();
         addBuild = new questionSetUp();
         addBuild.start();
 

@@ -231,8 +231,10 @@ public class questionSetUp {
         delQuestion.setOnAction(e ->delQuestionClicked() );
 
         //save button
-        Button saveQuestion = new Button("Save");
-        saveQuestion.setOnAction(e -> saveQuestionClicked());
+//        Button saveQuestion = new Button("Save");
+//        saveQuestion.setOnAction(e -> saveQuestionClicked());
+//        saveQuestion.setOnAction(e -> savedBox() );
+
 
         //edit button
         Button edidQuestion = new Button("Edit");
@@ -248,7 +250,7 @@ public class questionSetUp {
         HBox hBox = new HBox();
         hBox.setPadding(new Insets(10,10,10,10));
         hBox.setSpacing(10);
-        hBox.getChildren().addAll(questionInput, choiceAInput,choiceBInput,choiceCInput,choiceDInput,ansInput,topicInput, addQuestion, delQuestion, edidQuestion,saveQuestion, backButton);
+        hBox.getChildren().addAll(questionInput, choiceAInput,choiceBInput,choiceCInput,choiceDInput,ansInput,topicInput, addQuestion, delQuestion, edidQuestion, backButton);
 
         VBox vBox = new VBox();
         vBox.getChildren().addAll(tableQuestions,hBox);
@@ -381,14 +383,6 @@ public class questionSetUp {
             filesaver.flush();
             filesaver.close();
             System.out.println("Saved");
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Save  ");
-            alert.setHeaderText("Questions saved successfully");
-//            alert.setContentText("Preferences added successfully" );
-            alert.showAndWait().ifPresent(rs -> {
-                if (rs == ButtonType.OK) {
-                    System.out.println("Pressed OK.");}
-            });
 
 
         } catch (Exception e){
@@ -405,24 +399,37 @@ public class questionSetUp {
     }
 
     public void backButtonClicked(){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Save before exit  ");
-        alert.setHeaderText("Do you want to save your changes before leaving?");
+//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//        alert.setTitle("Save before exit  ");
+//        alert.setHeaderText("Do you want to save your changes before leaving?");
 //            alert.setContentText("Preferences added successfully" );
-        alert.showAndWait().ifPresent(rs -> {
-            if (rs == ButtonType.OK) {
+//        alert.showAndWait().ifPresent(rs -> {
+//            if (rs == ButtonType.OK) {
                 saveQuestionClicked();
                 newBuild = new adminHome();
                 newBuild.start();
-                window2.close();}
-        });
+                window2.close();
+
+
+//        });
 //        newBuild = new adminHome();
 //        newBuild.start();
-        window2.close();
+//        window2.close();
 
 
 
     }
+public void savedBox() {
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    alert.setTitle("Save  ");
+    alert.setHeaderText("Questions saved successfully");
+//            alert.setContentText("Preferences added successfully" );
+    alert.showAndWait().ifPresent(rs -> {
+        if (rs == ButtonType.OK) {
+            System.out.println("Pressed OK.");
+        }
+    });
+}
 
     private class editQuestions implements EventHandler<ActionEvent>{
         @Override
