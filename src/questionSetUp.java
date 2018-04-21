@@ -396,6 +396,7 @@ public class questionSetUp {
         questionSelected = tableQuestions.getSelectionModel().getSelectedItems();
 
         questionSelected.forEach(allQuestions::remove);
+        saveQuestionClicked();
     }
 
     public void backButtonClicked(){
@@ -406,8 +407,8 @@ public class questionSetUp {
 //        alert.showAndWait().ifPresent(rs -> {
 //            if (rs == ButtonType.OK) {
                 saveQuestionClicked();
-                newBuild = new adminHome();
-                newBuild.start();
+//                newBuild = new adminHome();
+//                newBuild.start();
                 window2.close();
 
 
@@ -419,17 +420,7 @@ public class questionSetUp {
 
 
     }
-public void savedBox() {
-    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-    alert.setTitle("Save  ");
-    alert.setHeaderText("Questions saved successfully");
-//            alert.setContentText("Preferences added successfully" );
-    alert.showAndWait().ifPresent(rs -> {
-        if (rs == ButtonType.OK) {
-            System.out.println("Pressed OK.");
-        }
-    });
-}
+
 
     private class editQuestions implements EventHandler<ActionEvent>{
         @Override
@@ -442,12 +433,3 @@ public void savedBox() {
 
 }
 
-//        FileWriter fileWriter = new FileWriter("src\\questionsData.csv", true);
-
-//        Product product = new Product();
-//        product.setName(nameInput.getText());
-//
-//        table.getItems().add(product);
-//        nameInput.clear();
-//        priceInput.clear();
-//        quantityInput.clear();

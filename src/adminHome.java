@@ -124,7 +124,7 @@ public class adminHome  {
     }
 
     public void questionButtonClicked() {
-        window.close();
+
         addBuild = new questionSetUp();
         addBuild.start();
 
@@ -155,6 +155,9 @@ public class adminHome  {
                     fileWriter.append(groupInput.getText());
                     fileWriter.append(NEW_LINE_SEPARATOR);
                     fileWriter.append(comboTopic.getValue());
+
+                    schoolInput.clear();
+                    groupInput.clear();
 
                     Alert alert = new Alert(AlertType.INFORMATION);
                     alert.setTitle("Preferences  ");
